@@ -39,6 +39,33 @@ export const TodosPage = () => {
     }
   }
 
+  
+  const deleteTodo = async (id: number) => {
+    setIsFetching(true)
+    const [,err] = await handle(Todos.deleteTodo(id))
+    setIsFetching(false)
+    if(!err) {
+      setTodos(p => p.filter(t => t.id !== id))
+    }
+    if(err) {
+      alert(err.join("\n"))
+    }
+  }
+
+
+  const editTodo = async (id: number, text: string) => {
+    setIsFetching(true)
+    const [res,err] = await handle(Todos.editTodo(id, text))
+    setIsFetching(false)
+    if(res) {
+      fetchTodos()
+    }
+    if(err) {
+      alert(err.join("\n"))
+    }
+  }
+
+
   useEffect(() => {
     fetchTodos()
   }, [])
@@ -47,7 +74,7 @@ export const TodosPage = () => {
     <>
       <StyledTitle>Todos:</StyledTitle>
       {todos.map((t) => (
-        <TodoComponent key={t.id} todo={t} />
+        <TodoComponent onEdit={editTodo} key={t.id} onDelete={deleteTodo} todo={t} />
       ))}
       <input
         type="text"

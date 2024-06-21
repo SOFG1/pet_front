@@ -11,14 +11,17 @@ const StyledTodo = styled.div`
 
 interface IProps {
   todo: ITodo;
+  onDelete: (id: number) => void
+  onEdit: (id: number, text: string) => void
 }
 
-export const TodoComponent = ({ todo }: IProps) => {
+export const TodoComponent = ({ todo, onDelete, onEdit }: IProps) => {
   const [val, setVal] = useState<string>(todo.text);
   const [editing, setEditing] = useState<boolean>(false);
 
   const onSave = () => {
     setEditing(false);
+    onEdit(todo.id, val)
   };
 
   return (
@@ -27,7 +30,7 @@ export const TodoComponent = ({ todo }: IProps) => {
         <>
           <p>{todo.text}</p>
           <button onClick={() => setEditing(true)}>EDIT</button>
-          <button>DELETE</button>
+          <button onClick={() => onDelete(todo.id)}>DELETE</button>
         </>
       )}
       {editing && (

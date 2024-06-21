@@ -6,6 +6,7 @@ import { Todos } from "../api/todos";
 import { ITodo } from "../types";
 import { useGlobalState } from "@reactivers/use-global-state";
 import { logErrors } from "../utils/logErrors";
+import { useToken } from "../hooks/useToken";
 
 const StyledTitle = styled.h1`
   font-size: 40px;
@@ -19,14 +20,16 @@ const StyledLogout = styled.button`
 `;
 
 export const TodosPage = () => {
+  const token = useToken();
   const { setGlobalState } = useGlobalState();
   const [todo, setTodo] = useState<string>("");
   const [todos, setTodos] = useState<ITodo[]>([]);
   const [isFetching, setIsFetching] = useState<boolean>(false);
 
+
   const fetchTodos = async () => {
     setIsFetching(true);
-    const [res] = await handle(Todos.getAllTodos());
+    const [res] = await handle(Todos.getAllTodos(token));
     setIsFetching(false);
     if (res) {
       setTodos(res);
@@ -35,7 +38,7 @@ export const TodosPage = () => {
 
   const addTodo = async () => {
     setIsFetching(true);
-    const [res, err] = await handle(Todos.addTodo(todo));
+    const [res, err] = await handle(Todos.addTodo(token, todo));
     setIsFetching(false);
     if (res) {
       setTodo("");
@@ -48,7 +51,7 @@ export const TodosPage = () => {
 
   const deleteTodo = async (id: number) => {
     setIsFetching(true);
-    const [, err] = await handle(Todos.deleteTodo(id));
+    const [, err] = await handle(Todos.deleteTodo(token, id));
     setIsFetching(false);
     if (!err) {
       setTodos((p) => p.filter((t) => t.id !== id));
@@ -60,7 +63,7 @@ export const TodosPage = () => {
 
   const editTodo = async (id: number, text: string) => {
     setIsFetching(true);
-    const [res, err] = await handle(Todos.editTodo(id, text));
+    const [res, err] = await handle(Todos.editTodo(token, id, text));
     setIsFetching(false);
     if (res) {
       fetchTodos();
@@ -78,7 +81,7 @@ export const TodosPage = () => {
 
   const onLogout = () => {
     setGlobalState((p: any) => ({ ...p, user: null }));
-    localStorage.removeItem("token")
+    localStorage.removeItem("token");
   };
 
   useEffect(() => {

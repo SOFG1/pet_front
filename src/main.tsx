@@ -7,7 +7,7 @@ import { HashRouter  } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <HashRouter  basename="/pet_front">
+    <HashRouter>
       <GlobalStateProvider>
         <App />
       </GlobalStateProvider>

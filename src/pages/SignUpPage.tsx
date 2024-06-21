@@ -32,6 +32,7 @@ export const SignUpPage = () => {
     const [res, err] = await handle(User.signUp(login, pass));
     if (res) {
       setGlobalState((p: any) => ({ ...p, user: res }));
+      localStorage.setItem("token", res.token)
     }
     if (err) {
       logErrors(err);

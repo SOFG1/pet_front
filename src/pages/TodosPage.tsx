@@ -16,82 +16,86 @@ const StyledLogout = styled.button`
   position: fixed;
   top: 15px;
   right: 15px;
-`
+`;
 
 export const TodosPage = () => {
   const { setGlobalState } = useGlobalState();
   const [todo, setTodo] = useState<string>("");
-  const [todos, setTodos] = useState<ITodo[]>([])
-  const [isFetching, setIsFetching] = useState<boolean>(false)
-
-
+  const [todos, setTodos] = useState<ITodo[]>([]);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
 
   const fetchTodos = async () => {
-    setIsFetching(true)
-    const [res] = await handle(Todos.getAllTodos())
-    setIsFetching(false)
-    if(res) {
-      setTodos(res)
+    setIsFetching(true);
+    const [res] = await handle(Todos.getAllTodos());
+    setIsFetching(false);
+    if (res) {
+      setTodos(res);
     }
-  }
+  };
 
   const addTodo = async () => {
-    setIsFetching(true)
-    const [res,err] = await handle(Todos.addTodo(todo))
-    setIsFetching(false)
-    if(res) {
-      setTodo("")
-      setTodos(p => ([...p, res]))
+    setIsFetching(true);
+    const [res, err] = await handle(Todos.addTodo(todo));
+    setIsFetching(false);
+    if (res) {
+      setTodo("");
+      setTodos((p) => [...p, res]);
     }
-    if(err) {
-      logErrors(err)
+    if (err) {
+      logErrors(err);
     }
-  }
+  };
 
-  
   const deleteTodo = async (id: number) => {
-    setIsFetching(true)
-    const [,err] = await handle(Todos.deleteTodo(id))
-    setIsFetching(false)
-    if(!err) {
-      setTodos(p => p.filter(t => t.id !== id))
+    setIsFetching(true);
+    const [, err] = await handle(Todos.deleteTodo(id));
+    setIsFetching(false);
+    if (!err) {
+      setTodos((p) => p.filter((t) => t.id !== id));
     }
-    if(err) {
-      logErrors(err)
+    if (err) {
+      logErrors(err);
     }
-  }
-
+  };
 
   const editTodo = async (id: number, text: string) => {
-    setIsFetching(true)
-    const [res,err] = await handle(Todos.editTodo(id, text))
-    setIsFetching(false)
-    if(res) {
-      fetchTodos()
+    setIsFetching(true);
+    const [res, err] = await handle(Todos.editTodo(id, text));
+    setIsFetching(false);
+    if (res) {
+      fetchTodos();
     }
-    if(err) {
-      logErrors(err)
+    if (err) {
+      logErrors(err);
     }
-  }
+  };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if(e.keyCode === 13 && todo) {
-      addTodo()
-
+    if (e.keyCode === 13 && todo) {
+      addTodo();
     }
-  }
+  };
 
+  const onLogout = () => {
+    setGlobalState((p: any) => ({ ...p, user: null }));
+    localStorage.removeItem("token")
+  };
 
   useEffect(() => {
-    fetchTodos()
-  }, [])
+    fetchTodos();
+  }, []);
 
   return (
     <>
-    <StyledLogout onClick={() => setGlobalState((p: any) => ({...p, user: null}))}>Log out</StyledLogout>
+      <StyledLogout onClick={onLogout}>Log out</StyledLogout>
       <StyledTitle>Todos:</StyledTitle>
       {todos.map((t) => (
-        <TodoComponent onEdit={editTodo} key={t.id} onDelete={deleteTodo} todo={t} />
+        <TodoComponent
+          onEdit={editTodo}
+          key={t.id}
+          onDelete={deleteTodo}
+          todo={t}
+        />
       ))}
       <input
         type="text"
@@ -99,7 +103,9 @@ export const TodosPage = () => {
         onKeyDown={onKeyDown}
         onChange={(e) => setTodo(e.target.value)}
       />
-      <button disabled={isFetching} onClick={addTodo}>Add todo</button>
+      <button disabled={isFetching} onClick={addTodo}>
+        Add todo
+      </button>
     </>
   );
 };

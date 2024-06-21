@@ -2,6 +2,9 @@ import { useGlobalState } from "@reactivers/use-global-state";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { handle } from "../api";
+import { User } from "../api/user";
+import { logErrors } from "../utils/logErrors";
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,18 +19,24 @@ const StyledTitle = styled.h1`
 `;
 
 export const SignInPage = () => {
-  const { globalState, setGlobalState } = useGlobalState();
+  const { setGlobalState } = useGlobalState();
   const [login, setLogin] = useState<string>("");
   const [pass, setPass] = useState<string>("");
 
 
 
-  const handleSignIn = () => {
-    setGlobalState((p: any) => ({...p, token: "test"}))
-  }
+  const handleSignUp = async () => {
+    const [res, err] = await handle(User.signIn(login, pass));
+    if (res) {
+      setGlobalState((p: any) => ({ ...p, user: res }));
+      localStorage.setItem("token", res.token)
+    }
+    if (err) {
+      logErrors(err);
+    }
+  };
 
 
-  console.log(globalState)
 
   return (
     <Wrapper>
@@ -44,7 +53,7 @@ export const SignInPage = () => {
         placeholder="Password"
         onChange={(e) => setPass(e.target.value)}
       />
-      <button onClick={handleSignIn}>Sign in</button>
+      <button onClick={handleSignUp}>Sign in</button>
       <Link to="/sign-up">Sign up</Link>
     </Wrapper>
   );

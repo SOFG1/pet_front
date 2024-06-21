@@ -1,6 +1,10 @@
 const PORT = 8000;
 
-export const baseUrl = `http://localhost:${PORT}/v1`;
+const isLocal = !!window.location.href.match("localhost")
+
+export const baseUrl = isLocal ? `http://localhost:${PORT}/v1` : `52.41.36.82:${PORT}/v1`
+
+
 
 export const handle = async (request: Promise<any>) => {
   try {

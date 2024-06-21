@@ -31,6 +31,7 @@ export const TodosPage = () => {
     const [res,err] = await handle(Todos.addTodo(todo))
     setIsFetching(false)
     if(res) {
+      setTodo("")
       setTodos(p => ([...p, res]))
     }
     if(err) {

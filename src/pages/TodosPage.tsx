@@ -65,6 +65,13 @@ export const TodosPage = () => {
     }
   }
 
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if(e.keyCode === 13 && todo) {
+      addTodo()
+
+    }
+  }
+
 
   useEffect(() => {
     fetchTodos()
@@ -79,6 +86,7 @@ export const TodosPage = () => {
       <input
         type="text"
         value={todo}
+        onKeyDown={onKeyDown}
         onChange={(e) => setTodo(e.target.value)}
       />
       <button disabled={isFetching} onClick={addTodo}>Add todo</button>

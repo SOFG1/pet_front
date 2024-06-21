@@ -23,13 +23,16 @@ export const SignUpPage = () => {
   const [login, setLogin] = useState<string>("");
   const [pass, setPass] = useState<string>("");
   const [pass2, setPass2] = useState<string>("");
+  const [isFetching, setIsFetching] = useState<boolean>(false);
 
   const handleSignUp = async () => {
     if (pass !== pass2) {
       alert("Passwords don't match");
       return;
     }
+    setIsFetching(true)
     const [res, err] = await handle(User.signUp(login, pass));
+    setIsFetching(false)
     if (res) {
       setGlobalState((p: any) => ({ ...p, user: res }));
       localStorage.setItem("token", res.token)
@@ -60,7 +63,7 @@ export const SignUpPage = () => {
         placeholder="Password confirmation"
         onChange={(e) => setPass2(e.target.value)}
       />
-      <button onClick={handleSignUp}>Sign up</button>
+      <button disabled={isFetching} onClick={handleSignUp}>Sign up</button>
       <Link to="/sign-in">Sign in</Link>
     </Wrapper>
   );

@@ -5,14 +5,17 @@ import { SignUpPage } from "./pages/SignUpPage";
 import { RedirectPage } from "./pages/RedirectPage";
 import { handle } from "./api";
 import { User } from "./api/user";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useGlobalState } from "@reactivers/use-global-state";
 
 function App() {
   const { setGlobalState } = useGlobalState();
+  const [isFetching, setIsFetching] = useState<boolean>(false);
 
   const checkAuth = async (token: string) => {
+    setIsFetching(true)
     const [res, err] = await handle(User.auth(token));
+    setIsFetching(false)
     if (res) {
       setGlobalState((p: any) => ({...p, user: res}))
     }
@@ -29,6 +32,7 @@ function App() {
     }
   }, []);
 
+  if(isFetching) return <p>Loading...</p>
   return (
     <>
       <Routes>

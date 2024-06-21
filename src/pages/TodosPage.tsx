@@ -35,7 +35,7 @@ export const TodosPage = () => {
       setTodos(p => ([...p, res]))
     }
     if(err) {
-      alert(err)
+      alert(err.join("\n"))
     }
   }
 

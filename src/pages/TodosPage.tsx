@@ -13,15 +13,30 @@ const StyledTitle = styled.h1`
 export const TodosPage = () => {
   const [todo, setTodo] = useState<string>("");
   const [todos, setTodos] = useState<ITodo[]>([])
+  const [isFetching, setIsFetching] = useState<boolean>(false)
+
 
 
   const fetchTodos = async () => {
+    setIsFetching(true)
     const [res] = await handle(Todos.getAllTodos())
+    setIsFetching(false)
     if(res) {
       setTodos(res)
     }
   }
 
+  const addTodo = async () => {
+    setIsFetching(true)
+    const [res,err] = await handle(Todos.addTodo(todo))
+    setIsFetching(false)
+    if(res) {
+      setTodos(p => ([...p, res]))
+    }
+    if(err) {
+      alert(err)
+    }
+  }
 
   useEffect(() => {
     fetchTodos()
@@ -38,7 +53,7 @@ export const TodosPage = () => {
         value={todo}
         onChange={(e) => setTodo(e.target.value)}
       />
-      <button>Add todo</button>
+      <button disabled={isFetching} onClick={addTodo}>Add todo</button>
     </>
   );
 };

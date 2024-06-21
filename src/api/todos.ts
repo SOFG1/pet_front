@@ -2,8 +2,8 @@ import axios from "axios"
 import { baseUrl } from "."
 
 
-export const Planets = {
-    getAllPlanets: async  () => {
-        return await axios.get(`${baseUrl}/planets/`)
+export const Todos = {
+    getAllTodos: async  () => {
+        return await axios.get(`${baseUrl}/todos/`)
     },
 }

@@ -1,21 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { TodoComponent } from "../components/TodoComponent";
+import { handle } from "../api";
+import { Todos } from "../api/todos";
+import { ITodo } from "../types";
 
 const StyledTitle = styled.h1`
   font-size: 40px;
   margin-bottom: 30px;
 `;
 
-const todos = [
-  { id: 1, text: "123123" },
-  { id: 2, text: "213wedwqdew" },
-  { id: 3, text: "scsswq123123" },
-  { id: 4, text: "ssw312qwdqw2" },
-];
-
 export const TodosPage = () => {
   const [todo, setTodo] = useState<string>("");
+  const [todos, setTodos] = useState<ITodo[]>([])
+
+
+  const fetchTodos = async () => {
+    const [res] = await handle(Todos.getAllTodos())
+    if(res) {
+      setTodos(res)
+    }
+  }
+
+
+  useEffect(() => {
+    fetchTodos()
+  }, [])
 
   return (
     <>

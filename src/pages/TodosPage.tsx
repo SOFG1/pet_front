@@ -5,6 +5,7 @@ import { handle } from "../api";
 import { Todos } from "../api/todos";
 import { ITodo } from "../types";
 import { useGlobalState } from "@reactivers/use-global-state";
+import { logErrors } from "../utils/logErrors";
 
 const StyledTitle = styled.h1`
   font-size: 40px;
@@ -18,7 +19,7 @@ const StyledLogout = styled.button`
 `
 
 export const TodosPage = () => {
-  const { globalState, setGlobalState } = useGlobalState();
+  const { setGlobalState } = useGlobalState();
   const [todo, setTodo] = useState<string>("");
   const [todos, setTodos] = useState<ITodo[]>([])
   const [isFetching, setIsFetching] = useState<boolean>(false)
@@ -43,7 +44,7 @@ export const TodosPage = () => {
       setTodos(p => ([...p, res]))
     }
     if(err) {
-      alert(err.join("\n"))
+      logErrors(err)
     }
   }
 
@@ -56,7 +57,7 @@ export const TodosPage = () => {
       setTodos(p => p.filter(t => t.id !== id))
     }
     if(err) {
-      alert(err.join("\n"))
+      logErrors(err)
     }
   }
 
@@ -69,7 +70,7 @@ export const TodosPage = () => {
       fetchTodos()
     }
     if(err) {
-      alert(err.join("\n"))
+      logErrors(err)
     }
   }
 
@@ -87,7 +88,7 @@ export const TodosPage = () => {
 
   return (
     <>
-    <StyledLogout onClick={() => setGlobalState((p: any) => ({...p, token: null}))}>Log out</StyledLogout>
+    <StyledLogout onClick={() => setGlobalState((p: any) => ({...p, user: null}))}>Log out</StyledLogout>
       <StyledTitle>Todos:</StyledTitle>
       {todos.map((t) => (
         <TodoComponent onEdit={editTodo} key={t.id} onDelete={deleteTodo} todo={t} />

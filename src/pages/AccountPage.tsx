@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { handle } from "../api";
 import { User } from "../api/user";
 import { useToken } from "../hooks/useToken";
-import { useGlobalState } from "@reactivers/use-global-state";
 import { logErrors } from "../utils/logErrors";
 import { ResetPasswordData } from "../types";
 import { useLogout } from "../hooks/useLogout";
@@ -34,7 +33,6 @@ const StyledColumn = styled.div`
 export const AccountPage = () => {
   const token = useToken();
   const logout = useLogout();
-  const { setGlobalState } = useGlobalState();
   const [deletePass, setDeletePass] = useState<string>("");
   const [resetPass, setResetPass] = useState<ResetPasswordData>({
     old: "",
@@ -46,8 +44,7 @@ export const AccountPage = () => {
     const [, err] = await handle(User.deleteProfile(token, deletePass));
     if (!err) {
       alert("Deleted");
-      setGlobalState((p: any) => ({ ...p, user: null }));
-      localStorage.removeItem("token");
+      logout();
     }
     if (err) {
       logErrors(err);

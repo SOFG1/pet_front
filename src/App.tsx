@@ -19,7 +19,7 @@ const StyledLogout = styled.button`
 `;
 
 function App() {
-  const { setGlobalState } = useGlobalState();
+  const { setGlobalState, globalState } = useGlobalState();
   const logout = useLogout();
   const [isFetching, setIsFetching] = useState<boolean>(false);
 
@@ -46,8 +46,12 @@ function App() {
   if (isFetching) return <p>Loading...</p>;
   return (
     <>
-      <Header />
-      <StyledLogout onClick={logout}>Log out</StyledLogout>
+      {globalState.user && (
+        <>
+          <Header />
+          <StyledLogout onClick={logout}>Log out</StyledLogout>
+        </>
+      )}
       <Routes>
         <Route
           path="/"

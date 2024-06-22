@@ -15,4 +15,14 @@ export const User = {
             }
         })
     },
+    deleteProfile: async (token: string, pass: string) => {
+        return await axios.delete(`${baseUrl}/user`, {
+            params: {
+                pass
+            },
+            headers: {
+                authorization: token
+            }
+        })
+    },
 }

@@ -103,6 +103,7 @@ export const TodosPage = () => {
       <input
         type="text"
         value={todo}
+        placeholder="Todo text"
         onKeyDown={onKeyDown}
         onChange={(e) => setTodo(e.target.value)}
       />

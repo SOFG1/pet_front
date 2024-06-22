@@ -7,21 +7,23 @@ import { handle } from "./api";
 import { User } from "./api/user";
 import { useEffect, useState } from "react";
 import { useGlobalState } from "@reactivers/use-global-state";
+import { Header } from "./components/Header";
+import { AccountPage } from "./pages/AccountPage";
 
 function App() {
   const { setGlobalState } = useGlobalState();
   const [isFetching, setIsFetching] = useState<boolean>(false);
 
   const checkAuth = async (token: string) => {
-    setIsFetching(true)
+    setIsFetching(true);
     const [res, err] = await handle(User.auth(token));
-    setIsFetching(false)
+    setIsFetching(false);
     if (res) {
-      setGlobalState((p: any) => ({...p, user: res}))
+      setGlobalState((p: any) => ({ ...p, user: res }));
     }
     if (err) {
-      setGlobalState((p: any) => ({...p, user: null}))
-      localStorage.removeItem("token")
+      setGlobalState((p: any) => ({ ...p, user: null }));
+      localStorage.removeItem("token");
     }
   };
 
@@ -32,9 +34,10 @@ function App() {
     }
   }, []);
 
-  if(isFetching) return <p>Loading...</p>
+  if (isFetching) return <p>Loading...</p>;
   return (
     <>
+      <Header />
       <Routes>
         <Route
           path="/"
@@ -44,8 +47,14 @@ function App() {
             </RedirectPage>
           }
         />
-      </Routes>
-      <Routes>
+        <Route
+          path="/account"
+          element={
+            <RedirectPage>
+              <AccountPage />
+            </RedirectPage>
+          }
+        />
         <Route
           path="/sign-in"
           element={
@@ -54,8 +63,6 @@ function App() {
             </RedirectPage>
           }
         />
-      </Routes>
-      <Routes>
         <Route
           path="sign-up"
           element={

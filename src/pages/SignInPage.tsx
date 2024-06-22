@@ -46,12 +46,14 @@ export const SignInPage = () => {
       <StyledTitle>Sign in</StyledTitle>
       <input
         type="text"
+        autoComplete="new-password"
         value={login}
         placeholder="Login"
         onChange={(e) => setLogin(e.target.value)}
       />
       <input
-        type="text"
+        type="password"
+        autoComplete="new-password"
         value={pass}
         placeholder="Password"
         onChange={(e) => setPass(e.target.value)}

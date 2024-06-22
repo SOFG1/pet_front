@@ -9,9 +9,18 @@ import { useEffect, useState } from "react";
 import { useGlobalState } from "@reactivers/use-global-state";
 import { Header } from "./components/Header";
 import { AccountPage } from "./pages/AccountPage";
+import styled from "styled-components";
+import { useLogout } from "./hooks/useLogout";
+
+const StyledLogout = styled.button`
+  position: fixed;
+  top: 15px;
+  right: 15px;
+`;
 
 function App() {
   const { setGlobalState } = useGlobalState();
+  const logout = useLogout();
   const [isFetching, setIsFetching] = useState<boolean>(false);
 
   const checkAuth = async (token: string) => {
@@ -38,6 +47,7 @@ function App() {
   return (
     <>
       <Header />
+      <StyledLogout onClick={logout}>Log out</StyledLogout>
       <Routes>
         <Route
           path="/"

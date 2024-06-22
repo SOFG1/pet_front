@@ -4,7 +4,6 @@ import { TodoComponent } from "../components/TodoComponent";
 import { handle } from "../api";
 import { Todos } from "../api/todos";
 import { ITodo } from "../types";
-import { useGlobalState } from "@reactivers/use-global-state";
 import { logErrors } from "../utils/logErrors";
 import { useToken } from "../hooks/useToken";
 
@@ -13,15 +12,8 @@ const StyledTitle = styled.h1`
   margin-bottom: 30px;
 `;
 
-const StyledLogout = styled.button`
-  position: fixed;
-  top: 15px;
-  right: 15px;
-`;
-
 export const TodosPage = () => {
   const token = useToken();
-  const { setGlobalState } = useGlobalState();
   const [todo, setTodo] = useState<string>("");
   const [todos, setTodos] = useState<ITodo[]>([]);
   const [isFetching, setIsFetching] = useState<boolean>(false);
@@ -79,18 +71,12 @@ export const TodosPage = () => {
     }
   };
 
-  const onLogout = () => {
-    setGlobalState((p: any) => ({ ...p, user: null }));
-    localStorage.removeItem("token");
-  };
-
   useEffect(() => {
     fetchTodos();
   }, []);
 
   return (
     <>
-      <StyledLogout onClick={onLogout}>Log out</StyledLogout>
       <StyledTitle>Todos:</StyledTitle>
       {todos.map((t) => (
         <TodoComponent

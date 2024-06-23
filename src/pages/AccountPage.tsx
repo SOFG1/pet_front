@@ -50,6 +50,7 @@ export const AccountPage = () => {
     new: "",
     newConfirm: "",
   });
+  const [isLoadingPhoto, setIsLoadingPhoto] = useState<boolean>(false);
 
   const handleDeleteProfile = async () => {
     const [, err] = await handle(User.deleteProfile(token, deletePass));
@@ -81,7 +82,9 @@ export const AccountPage = () => {
 
   const handleUploadImage = async (e: any) => {
     const file = e.target.files[0];
+    setIsLoadingPhoto(true);
     const [res, err] = await handle(User.uploadImage(token, file));
+    setIsLoadingPhoto(false);
     if (res) {
       setGlobalState((p: any) => ({ ...p, user: res }));
     }
@@ -95,16 +98,22 @@ export const AccountPage = () => {
       <StyledTitle>Account settings</StyledTitle>
       <StyledColumn>
         <StyledText>Profile photo</StyledText>
-        {globalState.user?.photoName && (
+        {globalState.user?.photoName && !isLoadingPhoto && (
           <StyledPhoto
             src={`${hostUrl}${globalState.user?.photoName}?t=${Date.now()}`}
           />
         )}
-        <ImageInput
-          type="file"
-          accept="image/png, image/gif, image/jpeg"
-          onChange={handleUploadImage}
-        />
+        {!globalState.user?.photoName && !isLoadingPhoto && (
+          <p>No photo added</p>
+        )}
+        {!isLoadingPhoto && (
+          <ImageInput
+            type="file"
+            accept="image/png, image/gif, image/jpeg"
+            onChange={handleUploadImage}
+          />
+        )}
+        {isLoadingPhoto && <p>Loading...</p>}
       </StyledColumn>
 
       <StyledText>Reset password</StyledText>

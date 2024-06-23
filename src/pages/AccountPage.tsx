@@ -100,6 +100,7 @@ export const AccountPage = () => {
   return (
     <StyledPage>
       <StyledTitle>Account settings</StyledTitle>
+      <StyledTitle>{globalState.user?.login}</StyledTitle>
       <StyledColumn>
         <StyledText>Profile photo</StyledText>
         {globalState.user?.photoName && !isLoadingPhoto && (

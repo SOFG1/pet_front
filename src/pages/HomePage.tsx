@@ -67,21 +67,25 @@ export const HomePage = () => {
     <StyledPage>
       <StyledTitle>You may like</StyledTitle>
       {isFetching && <p>Loading...</p>}
-      <StyledBox>
-        {users.users.map((u) => {
-          return (
-            <StyledUser key={u.login}>
-              <img src={`${hostUrl}${u.photoName}`} alt="" />
-              <p>{u.login}</p>
-            </StyledUser>
-          );
-        })}
-      </StyledBox>
-      <StyledPagination
-        count={Math.ceil(users.count / 5)}
-        page={page + 1}
-        onChange={(e: any) => setPage(Number(e.target.innerText) - 1)}
-      />
+      {!isFetching && (
+        <>
+          <StyledBox>
+            {users.users.map((u) => {
+              return (
+                <StyledUser key={u.login}>
+                  <img src={`${hostUrl}${u.photoName}`} alt="" />
+                  <p>{u.login}</p>
+                </StyledUser>
+              );
+            })}
+          </StyledBox>
+          <StyledPagination
+            count={Math.ceil(users.count / 5)}
+            page={page + 1}
+            onChange={(e: any) => setPage(Number(e.target.innerText) - 1)}
+          />
+        </>
+      )}
     </StyledPage>
   );
 };

@@ -80,7 +80,7 @@ export const HomePage = () => {
       <StyledPagination
         count={Math.ceil(users.count / 5)}
         page={page + 1}
-        onChange={(e, v) => setPage(v - 1)}
+        onChange={(e: any) => setPage(Number(e.target.innerText) - 1)}
       />
     </StyledPage>
   );

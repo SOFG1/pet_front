@@ -21,3 +21,11 @@ export interface IEmail {
     subject: string
     text: string
 }
+
+
+export interface IUser {
+    createdAt: string
+    updatedAt: string
+    photoName: string
+    login: string
+}

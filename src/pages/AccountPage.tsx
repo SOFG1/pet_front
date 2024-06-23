@@ -1,11 +1,12 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { handle } from "../api";
+import { handle, hostUrl } from "../api";
 import { User } from "../api/user";
 import { useToken } from "../hooks/useToken";
 import { logErrors } from "../utils/logErrors";
 import { ResetPasswordData } from "../types";
 import { useLogout } from "../hooks/useLogout";
+import { useGlobalState } from "@reactivers/use-global-state";
 
 const StyledTitle = styled.h1`
   font-size: 40px;
@@ -30,9 +31,19 @@ const StyledColumn = styled.div`
   margin-bottom: 30px;
 `;
 
+const ImageInput = styled.input`
+  margin-bottom: 40px;
+`;
+const StyledPhoto = styled.img`
+  object-fit: cover;
+  height: 300px;
+  width: 300px;
+`;
+
 export const AccountPage = () => {
   const token = useToken();
   const logout = useLogout();
+  const { globalState, setGlobalState } = useGlobalState();
   const [deletePass, setDeletePass] = useState<string>("");
   const [resetPass, setResetPass] = useState<ResetPasswordData>({
     old: "",
@@ -68,9 +79,34 @@ export const AccountPage = () => {
     }
   };
 
+  const handleUploadImage = async (e: any) => {
+    const file = e.target.files[0];
+    const [res, err] = await handle(User.uploadImage(token, file));
+    if (res) {
+      setGlobalState((p: any) => ({ ...p, user: res }));
+    }
+    if (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <StyledTitle>Account settings</StyledTitle>
+      <StyledColumn>
+        <StyledText>Profile photo</StyledText>
+        {globalState.user?.photoName && (
+          <StyledPhoto
+            src={`${hostUrl}${globalState.user?.photoName}?t=${Date.now()}`}
+          />
+        )}
+        <ImageInput
+          type="file"
+          accept="image/png, image/gif, image/jpeg"
+          onChange={handleUploadImage}
+        />
+      </StyledColumn>
+
       <StyledText>Reset password</StyledText>
       <StyledColumn>
         <input

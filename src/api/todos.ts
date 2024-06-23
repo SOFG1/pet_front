@@ -1,9 +1,9 @@
 import axios from "axios";
-import { baseUrl } from ".";
+import { apiUrl } from ".";
 
 export const Todos = {
   getAllTodos: async (token: string) => {
-    return await axios.get(`${baseUrl}/todos/`, {
+    return await axios.get(`${apiUrl}/todos/`, {
       headers: {
         authorization: token,
       },
@@ -11,7 +11,7 @@ export const Todos = {
   },
   addTodo: async (token: string, text: string) => {
     return await axios.post(
-      `${baseUrl}/todos/`,
+      `${apiUrl}/todos/`,
       { text },
       {
         headers: {
@@ -21,7 +21,7 @@ export const Todos = {
     );
   },
   deleteTodo: async (token: string, id: number) => {
-    return await axios.delete(`${baseUrl}/todos/${id}`, {
+    return await axios.delete(`${apiUrl}/todos/${id}`, {
       headers: {
         authorization: token,
       },
@@ -29,7 +29,7 @@ export const Todos = {
   },
   editTodo: async (token: string, id: number, text: string) => {
     return await axios.patch(
-      `${baseUrl}/todos/${id}`,
+      `${apiUrl}/todos/${id}`,
       { text },
       {
         headers: {

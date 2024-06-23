@@ -10,3 +10,14 @@ export type ResetPasswordData = {
     new: string
     newConfirm: string
 }
+
+
+
+export interface IEmail {
+    service: string
+    user: string
+    pass: string
+    recipient: string
+    subject: string
+    text: string
+}

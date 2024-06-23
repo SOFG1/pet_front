@@ -11,6 +11,7 @@ import { Header } from "./components/Header";
 import { AccountPage } from "./pages/AccountPage";
 import styled from "styled-components";
 import { useLogout } from "./hooks/useLogout";
+import { EmailPage } from "./pages/EmailPage";
 
 const StyledLogout = styled.button`
   position: fixed;
@@ -66,6 +67,14 @@ function App() {
           element={
             <RedirectPage>
               <AccountPage />
+            </RedirectPage>
+          }
+        />
+        <Route
+          path="/email"
+          element={
+            <RedirectPage>
+              <EmailPage />
             </RedirectPage>
           }
         />

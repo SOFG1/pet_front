@@ -25,5 +25,6 @@ export const Header = () => {
     return <StyledHeader>
         <StyledLink to="/">Todos</StyledLink>
         <StyledLink to="/account">Account</StyledLink>
+        <StyledLink to="/email">Send Email</StyledLink>
     </StyledHeader>
 }

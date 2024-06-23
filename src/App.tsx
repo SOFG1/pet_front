@@ -12,6 +12,7 @@ import { AccountPage } from "./pages/AccountPage";
 import styled from "styled-components";
 import { useLogout } from "./hooks/useLogout";
 import { EmailPage } from "./pages/EmailPage";
+import { HomePage } from "./pages/HomePage";
 
 const StyledLogout = styled.button`
   position: fixed;
@@ -56,6 +57,14 @@ function App() {
       <Routes>
         <Route
           path="/"
+          element={
+            <RedirectPage>
+              <HomePage />
+            </RedirectPage>
+          }
+        />
+        <Route
+          path="/todos"
           element={
             <RedirectPage>
               <TodosPage />

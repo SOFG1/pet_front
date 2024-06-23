@@ -8,6 +8,10 @@ import { ResetPasswordData } from "../types";
 import { useLogout } from "../hooks/useLogout";
 import { useGlobalState } from "@reactivers/use-global-state";
 
+const StyledPage = styled.div`
+  padding: 0 30px;
+`;
+
 const StyledTitle = styled.h1`
   font-size: 40px;
   margin-bottom: 30px;
@@ -94,7 +98,7 @@ export const AccountPage = () => {
   };
 
   return (
-    <>
+    <StyledPage>
       <StyledTitle>Account settings</StyledTitle>
       <StyledColumn>
         <StyledText>Profile photo</StyledText>
@@ -160,6 +164,6 @@ export const AccountPage = () => {
           Permanently delete profile
         </button>
       </StyledBox>
-    </>
+    </StyledPage>
   );
 };

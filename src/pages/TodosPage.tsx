@@ -6,6 +6,9 @@ import { Todos } from "../api/todos";
 import { ITodo } from "../types";
 import { logErrors } from "../utils/logErrors";
 import { useToken } from "../hooks/useToken";
+const StyledPage = styled.div`
+  padding: 0 30px;
+`;
 
 const StyledTitle = styled.h1`
   font-size: 40px;
@@ -76,7 +79,7 @@ export const TodosPage = () => {
   }, []);
 
   return (
-    <>
+    <StyledPage>
       <StyledTitle>Todos:</StyledTitle>
       {todos.map((t) => (
         <TodoComponent
@@ -96,6 +99,6 @@ export const TodosPage = () => {
       <button disabled={isFetching} onClick={addTodo}>
         Add todo
       </button>
-    </>
+    </StyledPage>
   );
 };

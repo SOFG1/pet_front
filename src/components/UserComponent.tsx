@@ -56,7 +56,7 @@ export const UserComponent = ({ user, onUpdate }: IProps) => {
       <img src={`${hostUrl}${user.photoName}`} alt="" />
       <p>{user.login}</p>
       <StyledFooter>
-        <p>Likes: {user.likes.length}</p>
+        <p>Likes: {user.likes.length} Exp: {user.experience}</p>
         {globalState.user._id !== user._id && (
           <LikeButton
             disabled={isLiking}

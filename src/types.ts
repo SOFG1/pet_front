@@ -30,4 +30,5 @@ export interface IUser {
     photoName: string
     login: string
     likes: string[]
+    experience: number
 }

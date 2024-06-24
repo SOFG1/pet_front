@@ -24,8 +24,10 @@ export interface IEmail {
 
 
 export interface IUser {
+    _id: string
     createdAt: string
     updatedAt: string
     photoName: string
     login: string
+    likes: string[]
 }

@@ -3,7 +3,7 @@ import { apiUrl } from ".";
 
 export const Todos = {
   getAllTodos: async (token: string) => {
-    return await axios.get(`${apiUrl}/todos/`, {
+    return await axios.get(`${apiUrl}/todos`, {
       headers: {
         authorization: token,
       },

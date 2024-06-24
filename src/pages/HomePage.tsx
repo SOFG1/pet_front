@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { handle, hostUrl } from "../api";
+import { handle } from "../api";
 import { useToken } from "../hooks/useToken";
 import { Users } from "../api/users";
 import { IUser } from "../types";
 import { Pagination } from "@mui/material";
+import { UserComponent } from "../components/UserComponent";
 
 const StyledPage = styled.div`
   padding: 0 30px;
@@ -22,21 +23,13 @@ const StyledBox = styled.div`
   margin-bottom: 20px;
 `;
 
-const StyledUser = styled.div`
-  padding: 10px;
-  box-shadow: 2px 2px 4px #00000057;
-  border-radius: 10px;
-  img {
-    width: 100%;
-    height: calc((100vw / 5) - 30px);
-    object-fit: cover;
-  }
-`;
+
 
 const StyledPagination = styled(Pagination)`
   display: flex;
   justify-content: center;
 `;
+
 
 export const HomePage = () => {
   const token = useToken();
@@ -59,6 +52,12 @@ export const HomePage = () => {
     }
   };
 
+  const onUpdate = (u: IUser, i: number) => {
+    const copy = [...users.users]
+    copy[i] = u
+    setUsers(p => ({...p, users: copy}))
+  }
+
   useEffect(() => {
     getUsers(page);
   }, [page]);
@@ -70,12 +69,9 @@ export const HomePage = () => {
       {!isFetching && (
         <>
           <StyledBox>
-            {users.users.map((u) => {
+            {users.users.map((u, i) => {
               return (
-                <StyledUser key={u.login}>
-                  <img src={`${hostUrl}${u.photoName}`} alt="" />
-                  <p>{u.login}</p>
-                </StyledUser>
+                <UserComponent key={u._id} user={u} onUpdate={(u) => onUpdate(u, i)} />
               );
             })}
           </StyledBox>

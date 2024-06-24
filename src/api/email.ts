@@ -5,7 +5,7 @@ import { IEmail } from "../types";
 export const Email = {
   sendEmail: async (token: string, data: IEmail) => {
     return await axios.post(
-      `${apiUrl}/mail/`,
+      `${apiUrl}/mail`,
       { ...data },
       {
         headers: {

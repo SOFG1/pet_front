@@ -43,7 +43,7 @@ function App() {
     if (token) {
       checkAuth(token);
     }
-  }, []);        
+  }, []);         
    
   if (isFetching) return <p>Loading...</p>;
   return (

@@ -44,7 +44,7 @@ function App() {
       checkAuth(token);
     }
   }, []);     
-
+ 
   if (isFetching) return <p>Loading...</p>;
   return (
     <>

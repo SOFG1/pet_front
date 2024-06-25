@@ -41,7 +41,7 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      checkAuth(token);
+      checkAuth(token); 
     }
   }, []);          
    
